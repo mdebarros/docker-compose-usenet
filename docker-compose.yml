@@ -9,9 +9,9 @@ services:
              --docker.exposedbydefault=false --acme.domains=${DOMAIN}
     container_name: traefik
     hostname: traefik
-    ports:
-      - "80:80"
-      - "443:443"
+    # ports:
+    #   - "80:80"
+    #   - "443:443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ${CONFIG}/traefik/acme.json:/acme.json
@@ -114,27 +114,27 @@ services:
       com.centurylinklabs.watchtower.enable: "true"
     restart: unless-stopped
 
-  lidarr:
-    image: linuxserver/lidarr:latest
-    container_name: lidarr
-    hostname: lidarr
-    ports:
-      - "8686:8686"
-    volumes:
-      - ${CONFIG}/lidarr:/config
-      - /etc/localtime:/etc/localtime:ro
-      - ${DOWNLOAD}/complete:/downloads
-      - ${DATA}/music:/music
-    environment:
-      - PGID
-      - PUID
-    labels:
-      traefik.enable: "true"
-      traefik.port: "8686"
-      traefik.frontend.rule: "Host:lidarr.${DOMAIN}"
-      traefik.frontend.auth.basic: "${HTPASSWD}"
-      com.centurylinklabs.watchtower.enable: "true"
-    restart: unless-stopped
+  # lidarr:
+  #   image: linuxserver/lidarr:latest
+  #   container_name: lidarr
+  #   hostname: lidarr
+  #   ports:
+  #     - "8686:8686"
+  #   volumes:
+  #     - ${CONFIG}/lidarr:/config
+  #     - /etc/localtime:/etc/localtime:ro
+  #     - ${DOWNLOAD}/complete:/downloads
+  #     - ${DATA}/music:/music
+  #   environment:
+  #     - PGID
+  #     - PUID
+  #   labels:
+  #     traefik.enable: "true"
+  #     traefik.port: "8686"
+  #     traefik.frontend.rule: "Host:lidarr.${DOMAIN}"
+  #     traefik.frontend.auth.basic: "${HTPASSWD}"
+  #     com.centurylinklabs.watchtower.enable: "true"
+  #   restart: unless-stopped
 
   lazylibrarian:
     image: linuxserver/lazylibrarian:latest
@@ -254,6 +254,8 @@ services:
     image: linuxserver/heimdall:latest
     container_name: heimdall
     hostname: heimdall
+    ports:
+      - "80:80"
     volumes:
       - ${CONFIG}/heimdall:/config
     environment:
@@ -268,24 +270,24 @@ services:
       com.centurylinklabs.watchtower.enable: "true"
     restart: unless-stopped
 
-  ombi:
-    image: linuxserver/ombi
-    container_name: ombi
-    hostname: ombi
-    ports:
-      - "3579:3579"
-    volumes:
-      - ${CONFIG}/ombi:/config
-    environment:
-      - PGID
-      - PUID
-      - TZ
-    labels:
-      traefik.enable: "true"
-      traefik.port: "3579"
-      traefik.frontend.rule: "Host:ombi.${DOMAIN}"
-      com.centurylinklabs.watchtower.enable: "true"
-    restart: unless-stopped
+  # ombi:
+  #   image: linuxserver/ombi
+  #   container_name: ombi
+  #   hostname: ombi
+  #   ports:
+  #     - "3579:3579"
+  #   volumes:
+  #     - ${CONFIG}/ombi:/config
+  #   environment:
+  #     - PGID
+  #     - PUID
+  #     - TZ
+  #   labels:
+  #     traefik.enable: "true"
+  #     traefik.port: "3579"
+  #     traefik.frontend.rule: "Host:ombi.${DOMAIN}"
+  #     com.centurylinklabs.watchtower.enable: "true"
+  #   restart: unless-stopped
 
   flexget:
     image: cpoppema/docker-flexget
