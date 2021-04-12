@@ -222,6 +222,7 @@ services:
       - PUID
       - TZ
       - VERSION=latest
+      - ADVERTISE_IP=${PLEX_ADVERTISE_IP}
     labels:
       traefik.enable: "true"
       traefik.port: "32400"
